@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  crossdesk-server:
+    image: crossdesk/crossdesk-server:v1.0.0
+    container_name: crossdesk_server
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - EXTERNAL_IP=43.133.192.17
+      - INTERNAL_IP=172.17.0.1
+      - CROSSDESK_SERVER_PORT=8443
+      - COTURN_PORT=3478
+      - MIN_PORT=50000
+      - MAX_PORT=60000
+    volumes:
+      - ./certs:/crossdesk-server/certs
+      - ./db:/crossdesk-server/db
+      - ./logs:/crossdesk-server/logs
+    # 注意：使用host网络模式时，不需要ports映射
+    # 但需要确保主机防火墙开放以下端口：
+    # - 3478/tcp (COTURN TCP端口)
+    # - 3478/udp (COTURN UDP端口) 
+    # - 8443/tcp (CrossDesk服务器端口)
+    # - 50000-60000/udp (COTURN端口范围)
