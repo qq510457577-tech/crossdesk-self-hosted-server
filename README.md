@@ -40,7 +40,7 @@ mv crossdesk.cn.key crossdesk.cn_bundle.crt certs/
 environment:
   - EXTERNAL_IP=YOUR_SERVER_IP      # 您的公网IP
   - INTERNAL_IP=172.17.0.1          # Docker内部IP
-  - CROSSDESK_SERVER_PORT=8443      # 信令服务器端口
+  - CROSSDESK_SERVER_PORT=9099      # 信令服务器端口（推荐9099）
   - COTURN_PORT=3478                # COTURN服务端口
   - MIN_PORT=50000                  # 最小UDP端口
   - MAX_PORT=60000                  # 最大UDP端口
@@ -89,17 +89,18 @@ crossdesk-self-hosted-server/
 
 ## 📱 客户端配置
 
-### 1. 下载根证书
-从服务器获取根证书文件：`crossdesk.cn_root.crt`
+### 1. 下载根证书（如使用自签名证书）
+从服务器获取根证书文件：`api.crossdesk.cn_root.crt`
+位置：`/var/lib/crossdesk/certs/api.crossdesk.cn_root.crt`
 
 ### 2. CrossDesk客户端配置
 1. 安装CrossDesk客户端
 2. 进入设置 → 自托管服务器配置
-3. 加载根证书文件
-4. 配置服务器信息：
+3. 配置服务器信息：
    - 服务器地址：您的公网IP
-   - 服务器端口：8443
+   - 服务器端口：9099（推荐端口）
    - 中继服务端口：3478
+4. 如果使用自签名证书，需要加载根证书文件
 5. 启用自托管服务器配置
 
 ## 🔒 安全配置
@@ -109,7 +110,7 @@ crossdesk-self-hosted-server/
 
 | 端口 | 协议 | 用途 |
 |------|------|------|
-| 8443 | TCP | CrossDesk信令服务器 |
+| 9099 | TCP | CrossDesk信令服务器（推荐端口） |
 | 3478 | TCP | COTURN服务 |
 | 3478 | UDP | COTURN服务 |
 | 50000-60000 | UDP | COTURN端口范围 |
